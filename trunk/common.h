@@ -138,20 +138,6 @@ int getEntries( const char* file );
 extern int readZipHeaders( char* file, struct s_zip* zi );
 
 
-// XXX FUTURE XXX
-// target: '1.0 release'
-
-/*====================
- * extern int write_EOFHeader( const char* file, ulong sizeofCD, ulong offsetCD
- *                             const char* comment, int entries )
- *
- * Writes the EOF Header or the "overal zip file header" for the archive. 
- *
- *====================
- */
-//extern int write_EOFHeader( const char* file, ulong sizeofCD, ulong offsetCD
-//                          const char* comment, int entries )
-
 /*====================
  * extern int write_zipFile( const char* file, const char* fileout, zipinfo* zi )
  *
@@ -160,6 +146,7 @@ extern int readZipHeaders( char* file, struct s_zip* zi );
  * Writes a zipfile base on input based on zipinfo* zi and options.
  *====================
  */
-//extern int write_zipFile( const char* file, const char* fileout, zipinfo* zi);
+extern int spoof_ZipFile( const char* file, const char* fileIn, 
+                          const char* fileOut);
 
 

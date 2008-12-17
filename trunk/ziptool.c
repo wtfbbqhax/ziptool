@@ -16,60 +16,63 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  
  * 02110-1301, USA.
- *
- * Build:
- *  gcc -O3 -Wall ziptool.c common.c -o ziptool
- *
- * TODO:  LOTS!!
  */
 #include <stdio.h>
 #include <stdlib.h>
 #include "common.h"
 
-extern int read_zipinfo();
-extern int write_local();
-extern int write_centdir();
+#define PROGRAM_NAME "ziptool"
 
-int 
-main( int argc, char** argv )
+extern int spoof_ZipFile();
+
+void print_banner( void );
+void print_help( void );
+
+char* prog_name;
+
+/*============
+ * M A I N ( )
+ *============
+ */
+int main( int argc, char** argv )
 {
-    zipinfo* zi;
-    zipinfo* root;
-	int err;
+    int error = Z_OK;
+    prog_name = argv[0];
 
-    printf("ZipTool version .9b, Copyright (c) 2008 Victor Roemer\n\n");
-    
+    // banner
+    print_banner();
+
     // arguements please 
     if( argc < 4 )
-        {
-        printf( "usage: %s zipin.zip zipin2.zip output.zip.\n", argv[0] ); 
-        printf( "      zipin.zip    zipfile that we want to look like.\n");
-        printf( "      zipin2.zip   zipfile we want to spoof.\n");
-        printf( "      output.zip   final product.\n\n");
-        exit(0); 
-        }
+        print_help();
 
-    // create 1st node
-    if( (zi=(zipinfo*)malloc(sizeof(zipinfo))) == NULL ) 
-        {
-        printf("Error allocating memory\n"); 
-        exit(-1);
-        }
-
-    root = zi;
-
-    read_zipinfo( argv[1], zi );
-
-    err = write_local( argv[2], argv[3], zi );
-    err = write_centdir( argv[2], argv[3], zi );
-    
-    while( root ) 
-        {
-        root = zi->next;
-        free(zi);
-        zi = root;
-        }
+    // spoof it good 
+    spoof_ZipFile( argv[1], argv[2], argv[3] );
 
     // bai
-    return(0);
+    return error;
+}
+
+
+/*============
+ * print_banner()
+ *============
+ */
+void print_banner( void )
+{
+    printf("ZipTool version 1.0rc1, Copyright (c) 2008 Victor Roemer\n");
+    printf("This is free software and is provided as-is WITHOUT WARRANTY!\n\n");
+}
+
+/*============
+ * print_help()
+ *============
+ */
+void print_help( void )
+{
+    printf( "usage: %s zipin.zip zipin2.zip output.zip.\n", prog_name );
+    printf( "      zipin.zip    zipfile that we want to look like.\n");
+    printf( "      zipin2.zip   zipfile we want to spoof.\n");
+    printf( "      output.zip   final product.\n\n");
+    exit( 1 );
 }
