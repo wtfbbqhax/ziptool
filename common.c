@@ -16,16 +16,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  
  * 02110-1301, USA.
- *
- * Build:
- *  gcc -O3 -Wall ziptool.c common.c -o ziptool
- *
- * TODO:  LOTS!!
  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "common.h"
+
+
+/*====================
+ * extern void free_zipinfo( zipinfo* zi )
+ *
+ * free all nodes of a zipinfo list
+ *====================
+ */
+extern void free_zipinfo( zipinfo* zi )
+{
+    zipinfo* root;
+    root = zi;
+    while( root )
+        {
+        root = zi->next;
+        free( zi );
+        zi = root;
+        }
+}
 
 /*==================== 
  * extern float getVersion( unsigned int version )
@@ -68,7 +82,11 @@ int getEntries( const char* file )
 /*====================
  * extern int read_zipHeaders( const char* file, zipinfo zi )
  *
- * returns any read error conditions
+ * Returns:
+ *      Z_OK           on Successful run
+ *      Z_MEM_ERROR    if we have issues allocating memory
+ *      Z_STREAM_ERROR if we have read errors
+ *      Z_ERRNO        mostly on fwrite errors/anyting else
  *====================
  */
 extern int read_zipinfo( const char* file, zipinfo* zi )
@@ -121,6 +139,11 @@ extern int read_zipinfo( const char* file, zipinfo* zi )
  * extern int write_local( const char* file, const char* fileout, zipinfo zi )
  *
  * write a new zipfile
+ * Returns:
+ *      Z_OK           on Successful run
+ *      Z_MEM_ERROR    if we have issues allocating memory
+ *      Z_STREAM_ERROR if we have read errors
+ *      Z_ERRNO        mostly on fwrite errors/anyting else
  *====================
  */
 extern int write_local( const char* file, const char* fileout, zipinfo* zi )
@@ -177,18 +200,10 @@ extern int write_local( const char* file, const char* fileout, zipinfo* zi )
                 }
             if( zi->next )
                 zi = zi->next;
-        } //else 
-//            {
-//            char buffer[1024];
-//            int  bytesRead;
-//            while( bytesRead=(int)fread(buffer, 1, sizeof(buffer), fpZip ) > 0 )
-//                if( fwrite( buffer, 1, sizeof(buffer), fpOut ) != bytesRead )
-//                    { error = Z_ERRNO; break; }
-//                break; 
-//            }
+        } 
     }
 
-    zi = root;
+    zi = root; // rewind
     fclose( fpZip ); 
     fclose( fpOut );
     return( error ); 
@@ -203,6 +218,12 @@ extern int write_local( const char* file, const char* fileout, zipinfo* zi )
  *
  * write a new zipfile
  *
+ * Returns:
+ *      Z_OK           on Successful run
+ *      Z_MEM_ERROR    if we have issues allocating memory
+ *      Z_STREAM_ERROR if we have read errors
+ *      Z_ERRNO        mostly on fwrite errors/anyting else
+ *
  * XXX 
  *      either need to MERGE write_local 
  *      OR
@@ -212,7 +233,8 @@ extern int write_local( const char* file, const char* fileout, zipinfo* zi )
  *      which calls all three
  *====================
  */
-extern int write_centdir( const char* file, const char* fileout, zipinfo* zi )
+extern int write_centdir( const char* file, const char* fileout, 
+                          zipinfo* zi )
 {
     int   error = Z_OK;
     FILE* fpZip = fopen(file,    "rb");
@@ -220,14 +242,14 @@ extern int write_centdir( const char* file, const char* fileout, zipinfo* zi )
 
     zipinfo* root; root = zi;
 
+    char* comment = "ziptool 1.0rc1";
     char header[46]; char filename[255]; char extra[1024];
     localheader* lo = (localheader*)header;
     centheader* cd = (centheader*)header;
     zipheader* zh = (zipheader*)header;
 
-    char* comment = "ziptool has touched your file";
-    unsigned long sizeofCD = 0;
-    unsigned long offsetCD = 0;
+    unsigned int sizeofCD = 0;
+    unsigned int offsetCD = 0;
 
     // need to skip the local header this time. Stolen from getEntries
     // XXX this is better
@@ -238,6 +260,8 @@ extern int write_centdir( const char* file, const char* fileout, zipinfo* zi )
             fseek( fpZip, (lo->fnSize + lo->extSize +
                           (lo->cpSize ? lo->cpSize : lo->uncpSize )),
                           SEEK_CUR ); 
+            
+            // SET EOF ZIPHEADER OFFSETCD
             offsetCD += (30 + lo->fnSize + lo->extSize +
                           (lo->cpSize ? lo->cpSize : lo->uncpSize ));
             }
@@ -284,8 +308,10 @@ extern int write_centdir( const char* file, const char* fileout, zipinfo* zi )
                     { error = Z_STREAM_ERROR; break; }
                 if( fwrite( comment, 1, cd->comSize, fpOut ) != cd->comSize )
                     { error = Z_ERRNO; break; }
-            sizeofCD += ( 46 + cd->fnSize + cd->extSize + cd->comSize );
-            
+
+           // SET EOF ZIP HEADER SIZEOFCD
+           sizeofCD += ( 46 + cd->fnSize + cd->extSize + cd->comSize );
+
             if( zi->next )
                 zi = zi->next;
             } 
@@ -301,21 +327,68 @@ extern int write_centdir( const char* file, const char* fileout, zipinfo* zi )
     // the zipheader from the fpZip. After an hour of debuging and hex
     // dumping zipfiles I've come to the determination that this is JUST FINE.
     //
-      zh->signature = 0x06054B50;
-      zh->disk = 0;
-      zh->diskCD = 0;
-      zh->entriesCD = getEntries(file);
-      zh->entries   = getEntries(file);
-      zh->sizeofCD  = sizeofCD;
-      zh->offsetCD  = offsetCD;
-      zh->comSize   = (int)strlen(comment);
-      if( fwrite( zh, 1, 22, fpOut ) != 22 )
+    zh->signature = 0x06054B50;
+    zh->disk = 0;
+    zh->diskCD = 0;
+    zh->entriesCD = getEntries(file);
+    zh->entries   = getEntries(file);
+    zh->sizeofCD  = sizeofCD;
+    zh->offsetCD  = offsetCD;
+    zh->comSize   = (int)strlen(comment);
+    if( fwrite( zh, 1, 22, fpOut ) != 22 )
         { error = Z_ERRNO; }
-      if( fwrite( comment, 1, zh->comSize, fpOut ) != zh->comSize )
+    if( fwrite( comment, 1, zh->comSize, fpOut ) != zh->comSize )
         { error = Z_ERRNO; }
+    // End of Final header
 
-    zi = root;
+
+    zi = root; // rewind
     fclose( fpZip );
     fclose( fpOut );
     return( error );
 }
+
+/*====================
+ * extern int spoof_ZipFile( const char* fileIn, const char* fileOut );
+ *
+ * Interface to SPOOF Zip file headers
+ *
+ * Returns any error condition returned by write_* routines. 
+ * Exits upon memory errors.
+ *====================
+ */
+extern int spoof_ZipFile( const char* file, const char* fileIn,
+                          const char* fileOut )
+{
+    int error;
+
+    zipinfo* zi;
+
+    // memory
+    if((zi = (zipinfo*)malloc(sizeof(zipinfo))) == NULL)
+        { 
+        fprintf(stderr, "MALLOC() Error allocating memory\n");
+        exit(Z_MEM_ERROR);
+        }
+
+    // read/write
+    if( (error = read_zipinfo( file, zi )) != Z_OK )
+        { 
+        free_zipinfo(zi); 
+        return error; 
+        }
+    if( (error = write_local( fileIn, fileOut, zi )) != Z_OK )
+        { 
+        free_zipinfo(zi); 
+        return error; 
+        }
+    if( (error = write_centdir( fileIn, fileOut, zi )) != Z_OK )
+        { 
+        free_zipinfo(zi); 
+        return error; 
+        }
+
+    free_zipinfo( zi );
+    return error;
+}
+
