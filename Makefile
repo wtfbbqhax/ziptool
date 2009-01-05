@@ -10,3 +10,6 @@ ziptool.o: ziptool.c
 
 common.o: common.c
 	gcc -Wall -O3 -c -o common.o common.c
+
+clean:
+	rm common.o ziptool.o zit

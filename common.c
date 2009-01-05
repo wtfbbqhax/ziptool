@@ -68,10 +68,10 @@ int getEntries( const char* file )
     while( fread( header, 1, 30, fpZip ) == 30 ) {
         if( lo->signature == 0x04034B50 ) 
         {
+            ++i;
             fseek( fpZip, (lo->fnSize + lo->extSize +
                           (lo->cpSize ? lo->cpSize : lo->uncpSize )),
                           SEEK_CUR ); 
-            ++i;
         } else break; 
     }
     fclose( fpZip );
