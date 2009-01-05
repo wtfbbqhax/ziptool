@@ -1,33 +1,52 @@
-/* ziptool - spoof zipfile CRC32 values
- *
- * Copyright (c) Victor Roemer 2008' aka Caffeinated 
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  
- * 02110-1301, USA.
- *
- * Build:
- *  gcc -O3 -Wall ziptool.c common.c -o ziptool
- *
- * TODO:  LOTS!!
- */
+/*********************************************************************
+   ziptool - spoof zipfile CRC32 values
+
+   Copyright (c) Victor Roemer 2008' aka Caffeinated 
+
+   This program is free software; you can redistribute it and/or
+   modify it under the terms of the GNU General Public License
+   as published by the Free Software Foundation; either version 2
+   of the License, or (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  
+   02110-1301, USA.
+ 
+ ********************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 typedef unsigned long  ulong;
 typedef unsigned short ushort;
+
+// endian swap so I can oneday run on my powerpc Mac
+// short type
+#define swap_short(x) \
+        ((x>>8) | \
+        (x<<8))
+// long and integral type
+#define swap_long(x) \
+        ((x>>24) | \
+        ((x<<8) & 0x00FF0000) | \
+        ((x>>8) & 0x0000FF00) | \
+        (x<<24)) 
+// long long type ( 16byte )
+#define swap_longlong(x) \
+        ((x>>56) | \
+        ((x<<40) & 0x00FF000000000000) | \
+        ((x<<24) & 0x0000FF0000000000) | \
+        ((x<<8)  & 0x000000FF00000000) | \
+        ((x>>8)  & 0x00000000FF000000) | \
+        ((x>>24) & 0x0000000000FF0000) | \
+        ((x>>40) & 0x000000000000FF00) | \
+        (x<<56))
 
 // Zlib error conditions
 #define Z_OK              0
@@ -65,9 +84,9 @@ typedef struct s_localHeader {
     unsigned int   signature;// 0x04034B50
     unsigned short version;
     unsigned short gpflag;
-    unsigned short method;   // maybe I should make this an enum
+    unsigned short method;   // maybe I should make this an enum?
     unsigned short fileTime; // need to make functions to convert
-    unsigned short fileDate; // these to text
+    unsigned short fileDate; // these to text or steal from somthing
     unsigned int   crc32;
     unsigned int   cpSize;   // this == uncpsize if nothing else
     unsigned int   uncpSize;
@@ -99,9 +118,9 @@ typedef struct s_FinalHeader {
     unsigned int   signature; // 0x06054B50
     unsigned short disk;
     unsigned short diskCD;    // same as disk
-    unsigned short entriesCD; // I'm confused by this 
+    unsigned short entriesCD;
     unsigned short entries;
-    unsigned int   sizeofCD;  // should be same as entries?
+    unsigned int   sizeofCD;
     unsigned int   offsetCD;
     unsigned short comSize;
 } zipheader;
