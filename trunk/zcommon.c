@@ -22,35 +22,6 @@
 #include <string.h>
 #include "common.h"
 
-
-/*====================
- * extern void free_zipinfo( zipinfo* zi )
- *
- * free all nodes of a zipinfo list
- *====================
- */
-extern void free_zipinfo( zipinfo* zi )
-{
-    zipinfo* root;
-    root = zi;
-    while( root )
-        {
-        root = zi->next;
-        free( zi );
-        zi = root;
-        }
-}
-
-/*==================== 
- * extern float getVersion( unsigned int version )
- *
- * Return( printable version )
- *====================
- */
-extern float getVersion( unsigned int version ) 
-{ return( (10/version) + (10%version) ); }
-
-
 /*====================
  * int getEntries( const char* file )
  *
@@ -81,6 +52,8 @@ int getEntries( const char* file )
 
 /*====================
  * extern int read_zipHeaders( const char* file, zipinfo zi )
+ *
+ * Fill a \'zipinfo\' linked list.
  *
  * Returns:
  *      Z_OK           on Successful run
@@ -200,7 +173,7 @@ extern int write_local( const char* file, const char* fileout, zipinfo* zi )
                 }
             if( zi->next )
                 zi = zi->next;
-        } 
+        }
     }
 
     zi = root; // rewind
@@ -347,48 +320,3 @@ extern int write_centdir( const char* file, const char* fileout,
     fclose( fpOut );
     return( error );
 }
-
-/*====================
- * extern int spoof_ZipFile( const char* fileIn, const char* fileOut );
- *
- * Interface to SPOOF Zip file headers
- *
- * Returns any error condition returned by write_* routines. 
- * Exits upon memory errors.
- *====================
- */
-extern int spoof_ZipFile( const char* file, const char* fileIn,
-                          const char* fileOut )
-{
-    int error;
-
-    zipinfo* zi;
-
-    // memory
-    if((zi = (zipinfo*)malloc(sizeof(zipinfo))) == NULL)
-        { 
-        fprintf(stderr, "MALLOC() Error allocating memory\n");
-        exit(Z_MEM_ERROR);
-        }
-
-    // read/write
-    if( (error = read_zipinfo( file, zi )) != Z_OK )
-        { 
-        free_zipinfo(zi); 
-        return error; 
-        }
-    if( (error = write_local( fileIn, fileOut, zi )) != Z_OK )
-        { 
-        free_zipinfo(zi); 
-        return error; 
-        }
-    if( (error = write_centdir( fileIn, fileOut, zi )) != Z_OK )
-        { 
-        free_zipinfo(zi); 
-        return error; 
-        }
-
-    free_zipinfo( zi );
-    return error;
-}
-

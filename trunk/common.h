@@ -169,3 +169,4 @@ extern int spoof_ZipFile( const char* file, const char* fileIn,
                           const char* fileOut);
 
 
+extern int verifyZipFile( const char* file );

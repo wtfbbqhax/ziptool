@@ -2,14 +2,16 @@
 #
 all: ziptool
 
-ziptool: ziptool.o common.o
-	gcc -o zit ziptool.o common.o
+ziptool: ziptool.o zcommon.o zinfo.o
+	gcc -o zit ziptool.o zcommon.o archive.o
 
 ziptool.o: ziptool.c
 	gcc -Wall -O3 -c -o ziptool.o ziptool.c
 
-common.o: common.c
-	gcc -Wall -O3 -c -o common.o common.c
+common.o: zcommon.c
+	gcc -Wall -O3 -c -o zcommon.o zcommon.c
 
+zinfo.o: archive.c
+	gcc -Wall -O3 -c -o archive.o archive.c
 clean:
-	rm common.o ziptool.o zit
+	rm *.o zit
