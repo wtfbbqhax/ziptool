@@ -1,0 +1,16 @@
+2011-02-10 Victor Roemer <vroemer@gmail.com>
+	* ziptool.cc - Added FileExistsAndHasPermmissions()
+	* ziptool.cc - Rewrote the purifier loops
+	* ziptool.cc - Changed Absolute offsets calc's to Relative offsets
+	* Packaged ziptool-2.1.0.tar.gz
+
+2011-02-09 Victor Roemer <vroemer@gmail.com>
+	* ziptool.cc - Added ValidateArchiveCompatibility()
+	* ziptool.cc - Added BuildFileList()
+
+2011-02-08 Victor Roemer <vroemer@gmail.com>
+	* ziptool.c - Added licensing info
+	* ChangeLog - Added it
+
+2011-02-08 Victor Roemer <vroemer@gmail.com>
+	* Wrote and released version 2.0.0
