@@ -1,0 +1,31 @@
+ZIPTool version 2.0.0 is simpler better version of ziptool 1.0.0.
+
+Ziptool allows Quake3 hackers to modify they're client side files and then
+purify the data so that it will work on pure only servers.
+
+* note: will only work on little-endian systems (Intel,AMD,etc..)
+
+Differences from the initial 1.0.0 version:
+  - C++ backend
+  - Arbitrary file purification
+  - Modifies the unpure archive inline instead of creating a new archive.
+
+To Be Done in 2.1.x
+  - Refactor all the lame code
+  - Refactor the similar loops
+  - Use relative offsets vs absolute offsets on file write.
+  - Add some getopt foo
+
+To Be Done in 2.2.x
+  - Fix endian issues
+  - Everything else 
+
+How to compile:
+./configure
+make
+sudo make install
+
+Run as follows, replacing pure.pk3 with the legit archive and unpure.pk3 with
+yours.
+
+ziptool pure.pk3 unpure.pk3
