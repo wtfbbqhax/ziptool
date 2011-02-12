@@ -1,17 +1,3 @@
-2011-02-12 Victor Roemer <vroemer@gmail.com>
-	* changed all references of the ZIP file extenstion to PK3
-	* README - Wrote a detailed readme that could easily be translated into a
-	  very nice man page.
-	* ziptool.cc ShowVersion() changed to ShowPackageInfo()
-	* Packaged ziptool-2.1.1.tar.gz
-
-2011-02-11 Victor Roemer <vroemer@gmail.com>
-	* ziptool.cc - ValidateArchiveCompatibility() will now properly exit on
-	  invalid pure archive. (issue 7)
-	* configure.ac - Purged the useless garbage. (issue 6)
-	* Preformed some general code cleanup.
-	* Changed CentralDirectoryHeader to CentralDirectoryRecord for distinction
-
 2011-02-10 Victor Roemer <vroemer@gmail.com>
 	* ziptool.cc - Added FileExistsAndHasPermmissions()
 	* ziptool.cc - Rewrote the purifier loops
