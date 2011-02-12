@@ -1,4 +1,4 @@
-#labels Phase-Deploy,Featured
+#labels Phase-Deploy
 ==NAME==
     ziptool - purify pkzip archive files
 
