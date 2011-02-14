@@ -1,23 +1,22 @@
 //////////////////////////////////////////////////////////////////////
-// ZipTool - spoof zipfile CRC32 values
+// This file is part of ZIPTool, a tool to purify pkzip archives
 //
-// Copyright (c) Victor Roemer 2011' aka Sploit
+// Copyright (c) 2008-2011 Victor J Roemer AKA Sploit 
 //
 // This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
+// modify it under the terms of the GNU General Public License as
+// published by the Free Software Foundation; either version 2 of the
+// License, or (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-// 02110-1301, USA.
-/////////////////////////////////////////////////////////////////////
+// along with this program; if not, see
+// http://www.gnu.org/licenses/gpl-2.0.html
+//////////////////////////////////////////////////////////////////////
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -221,7 +220,7 @@ int main(int argc, char *argv[])
     // Validate the Archive's
     if (ValidateArchiveCompatibility(pure))
     {
-        cerr << "Error " << argv[1] << " is not a compatible pkzip archive";
+        cerr << "Error " << argv[1] << " is not compatible with ziptool";
         cerr << endl;
         exit( 1 );
     }
