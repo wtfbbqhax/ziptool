@@ -22,5 +22,6 @@ AC_TYPE_UINT32_T
 AC_CHECK_FUNCS([strerror])
 
 AC_CONFIG_FILES([Makefile
+                 man/Makefile
                  src/Makefile])
 AC_OUTPUT
