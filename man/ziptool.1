@@ -1,5 +1,5 @@
 '\" t
-.\" Manual page created with latex2man on Fri Mar 11 11:31:39 EST 2011
+.\" Manual page created with latex2man on Fri Mar 11 12:07:04 EST 2011
 .\" NOTE: This file is generated, DO NOT EDIT.
 .de Vb
 .ft CW
@@ -14,9 +14,7 @@
 .SH NAME
 
 ziptool
-is a tool that allows hackers to distribute client\-size 
-modifications to Quake3 based games which would otherwise be blocked by server 
-side pure mode settings. 
+\- Purify Quake3 PK3 archives 
 .PP
 .SH SYNOPSIS
 
@@ -27,13 +25,20 @@ ziptool
 .SH DESCRIPTION
 
 ziptool
-takes the CRC32 values from the pure archive and write those into 
-the unpure archive for the files whose names are commmon between the 2 archives. 
+is a tool that allows hackers to distribute 
+client\-size modifications to Quake3 based games which would 
+otherwise be blocked by server side pure mode settings. 
 .PP
-This exposes a bug in the minizip library utilized in the Quake3 client code 
-where the checksums from the archive are used to determine whether or not an 
-archive is pure but doesn\&'t validate that those checksums are valid for the 
-files contained within the archive. 
+ziptool
+takes the CRC32 values from the pure archive and 
+write those into the unpure archive for the files whose names are 
+commmon between the 2 archives. 
+.PP
+This exposes a bug in the minizip library utilized in the Quake3 
+client code where the checksums from the archive are used to 
+determine whether or not an archive is pure but doesn\&'t validate 
+that those checksums are valid for the files contained within the 
+archive. 
 .PP
 .SH OPTIONS
 
@@ -46,20 +51,20 @@ Error messages and they\&'re causes
 .PP
 \fBError <file name> is not compatible with ziptool\fP
 .PP
-you\&'ve probably used some fancy schmancy tool to build your archives deeming 
-them incompatible with ziptool. 
+you\&'ve probably used some fancy schmancy tool to build your archives 
+deeming them incompatible with ziptool. 
 .PP
 \fBError building file list from <file name>\fP
 .PP
-somehow you\&'ve managed to make the archive unreadable yet bypass the archive 
-validation, this is likely due to corruption of the archive. 
+somehow you\&'ve managed to make the archive unreadable yet bypass the 
+archive validation, this is likely due to corruption of the archive. 
 .PP
 \fBError writing local header(s) to <file name>\fP
 .PP
 \fBError writing central directory record(s) to <file name>\fP
 .PP
-there was an issue writing to the unpure archive, this is likely due to 
-corruption of the archive. 
+there was an issue writing to the unpure archive, this is likely due 
+to corruption of the archive. 
 .PP
 .SH AUTHOR
 
@@ -71,15 +76,16 @@ Report bugs to <\fIhttp://code.google.com/p/ziptool/issues/\fP>
 .PP
 .SH COPYRIGHT
 
-Copyright (C) 2008\-2011 Victor J. Roemer AKA Sploit. License GPLv2: GNU GPL 
-version 2 <\fIhttp://www.gnu.org/licenses/gpl\-2.0.html\fP>
+Copyright (C) 2008\-2011 Victor J. Roemer AKA Sploit. License GPLv2: 
+GNU GPL version 2 <\fIhttp://www.gnu.org/licenses/gpl\-2.0.html\fP>
 .PP
-This program is free software; you can redistribute it and/or modify it under 
-the terms of the GNU General Public License as published by the Free Software 
-Foundation; either version 2 of the License, or (at your option) any later 
-version. 
+This program is free software; you can redistribute it and/or modify 
+it under the terms of the GNU General Public License as published by 
+the Free Software Foundation; either version 2 of the License, or (at 
+your option) any later version. 
 .PP
-This program is distributed in the hope that it will be useful, but WITHOUT ANY 
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
-PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+This program is distributed in the hope that it will be useful, but 
+WITHOUT ANY WARRANTY; without even the implied warranty of 
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+General Public License for more details. 
 .\" NOTE: This file is generated, DO NOT EDIT.
