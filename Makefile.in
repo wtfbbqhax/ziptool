@@ -153,7 +153,7 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
-SUBDIRS = src
+SUBDIRS = src man
 EXTRA_DIST = autogen.sh
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
