@@ -1,3 +1,6 @@
+2011-03-12 Victor Roemer <vroemer@gmail.com>
+	* Removed README as ziptool has a man page now
+
 2011-03-11 Victor Roemer <vroemer@gmail.com>
 	* Added ziptool man page
 
