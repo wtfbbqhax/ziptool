@@ -1,5 +1,6 @@
 2011-03-13 Victor Roemer <vroemer@gmail.com>
 	* Removed EXTRA_DIST=autogen.sh from Makefile.am, its not used anymore
+	* Add EXTRA_DIST=man_MANS to man/Makefile.am to fix distcheck
 
 2011-03-12 Victor Roemer <vroemer@gmail.com>
 	* Removed README as ziptool has a man page now
