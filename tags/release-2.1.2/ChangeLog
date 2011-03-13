@@ -1,0 +1,41 @@
+2011-03-13 Victor Roemer <vroemer@gmail.com>
+	* Removed EXTRA_DIST=autogen.sh from Makefile.am, its not used anymore
+	* Add EXTRA_DIST=man_MANS to man/Makefile.am to fix distcheck
+	* Packaged ziptool-2.1.2.tar.gz 
+
+2011-03-12 Victor Roemer <vroemer@gmail.com>
+	* Removed README as ziptool has a man page now
+
+2011-03-11 Victor Roemer <vroemer@gmail.com>
+	* Added ziptool man page
+
+2011-02-12 Victor Roemer <vroemer@gmail.com>
+	* changed all references of the ZIP file extenstion to PK3
+	* README - Wrote a detailed readme that could easily be translated into a
+	  very nice man page.
+	* ziptool.cc ShowVersion() changed to ShowPackageInfo()
+	* Packaged ziptool-2.1.1.tar.gz
+
+2011-02-11 Victor Roemer <vroemer@gmail.com>
+	* ziptool.cc - ValidateArchiveCompatibility() will now properly exit on
+	  invalid pure archive. (issue 7)
+	* configure.ac - Purged the useless garbage. (issue 6)
+	* Preformed some general code cleanup.
+	* Changed CentralDirectoryHeader to CentralDirectoryRecord for distinction
+
+2011-02-10 Victor Roemer <vroemer@gmail.com>
+	* ziptool.cc - Added FileExistsAndHasPermmissions()
+	* ziptool.cc - Rewrote the purifier loops
+	* ziptool.cc - Changed Absolute offsets calc's to Relative offsets
+	* Packaged ziptool-2.1.0.tar.gz
+
+2011-02-09 Victor Roemer <vroemer@gmail.com>
+	* ziptool.cc - Added ValidateArchiveCompatibility()
+	* ziptool.cc - Added BuildFileList()
+
+2011-02-08 Victor Roemer <vroemer@gmail.com>
+	* ziptool.c - Added licensing info
+	* ChangeLog - Added it
+
+2011-02-08 Victor Roemer <vroemer@gmail.com>
+	* Wrote and released version 2.0.0

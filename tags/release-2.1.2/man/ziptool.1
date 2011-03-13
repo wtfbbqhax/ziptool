@@ -1,0 +1,91 @@
+'\" t
+.\" Manual page created with latex2man on Sat Mar 12 15:46:16 EST 2011
+.\" NOTE: This file is generated, DO NOT EDIT.
+.de Vb
+.ft CW
+.nf
+..
+.de Ve
+.ft R
+
+.fi
+..
+.TH "ZIPTOOL" "1" "12 March 2011" "User Commands " "User Commands "
+.SH NAME
+
+ziptool
+\- Purify Quake3 PK3 archives 
+.PP
+.SH SYNOPSIS
+
+\fBziptool\fP
+\fIpure.pk3\fP
+\fIunpure.pk3\fP
+.PP
+.SH DESCRIPTION
+
+ziptool
+is a tool that allows hackers to distribute 
+client\-size modifications to Quake3 based games which would 
+otherwise be blocked by server side pure mode settings. 
+.PP
+ziptool
+takes the CRC32 values from the pure archive and 
+write those into the unpure archive for the files whose names are 
+commmon between the 2 archives. 
+.PP
+This exposes a bug in the minizip library utilized in the Quake3 
+client code where the checksums from the archive are used to 
+determine whether or not an archive is pure but doesn\&'t validate 
+that those checksums are valid for the files contained within the 
+archive. 
+.PP
+.SH OPTIONS
+
+ziptool
+takes no options. 
+.PP
+.SH DIAGNOSTICS
+
+Error messages and they\&'re causes 
+.PP
+\fBError <file name> is not compatible with ziptool\fP
+.PP
+you\&'ve probably used some fancy schmancy tool to build your archives 
+deeming them incompatible with ziptool. 
+.PP
+\fBError building file list from <file name>\fP
+.PP
+somehow you\&'ve managed to make the archive unreadable yet bypass the 
+archive validation, this is likely due to corruption of the archive. 
+.PP
+\fBError writing local header(s) to <file name>\fP
+.PP
+\fBError writing central directory record(s) to <file name>\fP
+.PP
+there was an issue writing to the unpure archive, this is likely due 
+to corruption of the archive. 
+.PP
+.SH AUTHOR
+
+Written by Victor J. Roemer 
+.PP
+.SH REPORTING ISSUES
+
+Report bugs to <\fIhttp://code.google.com/p/ziptool/issues/\fP>
+.PP
+.SH COPYRIGHT
+
+Copyright (C) 2008\-2011 Victor J. Roemer AKA Sploit. License GPLv2: 
+GNU GPL version 2 <\fIhttp://www.gnu.org/licenses/gpl\-2.0.html\fP>
+.PP
+This program is free software; you can redistribute it and/or modify 
+it under the terms of the GNU General Public License as published by 
+the Free Software Foundation; either version 2 of the License, or (at 
+your option) any later version. 
+.PP
+This program is distributed in the hope that it will be useful, but 
+WITHOUT ANY WARRANTY; without even the implied warranty of 
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU 
+General Public License for more details. 
+.\" NOTE: This file is generated, DO NOT EDIT.
