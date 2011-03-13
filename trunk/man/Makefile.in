@@ -134,6 +134,7 @@ sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 man_MANS = ziptool.1
+EXTRA_DIST = $(man_MANS)
 all: all-am
 
 .SUFFIXES:
