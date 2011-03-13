@@ -1,5 +1,5 @@
 AC_PREREQ(2.61)
-AC_INIT([ziptool], [2.1.1], [http://code.google.com/p/ziptool/issues/])
+AC_INIT([ziptool], [2.1.2], [http://code.google.com/p/ziptool/issues/])
 AC_CONFIG_SRCDIR([src/ziptool.cc])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
