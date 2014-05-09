@@ -111,8 +111,8 @@ int ValidateArchiveCompatibility( fstream &archive )
     // validate the central directory + as a bonus, ZIP64 formating should fail
     // here as well
     CentralDirectoryRecord central;
-
-    archive.seekg( -(sizeof(local)), ios_base::cur );
+    
+    archive.seekg( -(static_cast<streamoff>(sizeof(local)) ), ios_base::cur );
     archive.read( reinterpret_cast<char *> (&central), sizeof(central) );
     while( central.signature ==  0x2014B50 ) {
         try
